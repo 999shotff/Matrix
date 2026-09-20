@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: matrix-backend
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: AI_BASE_URL
+        sync: false
+      - key: AI_API_KEY
+        sync: false
+      - key: AI_MODEL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: STORAGE_DIR
+        value: /opt/render/project/src/storage
+    disk:
+      name: matrix-storage
+      mountPath: /opt/render/project/src/storage
+      sizeGB: 1
